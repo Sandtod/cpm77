@@ -4,15 +4,16 @@ require 'rubygems'
 require 'fileutils'
 require 'open-uri'
 require 'pdf-reader'
+require_relative 'C:\Users\adano\Dropbox\work\tools\stdtools.rb'
 
-dir_list = Dir.entries(".").select {|f| !File.directory? f}
- puts "Choose the pdf file:"
-dir_list.map{|m| puts m if m[-1].chomp == "f"}
-filename = gets.chomp.to_s
-  puts "Enter the page number:"
+workfile = dir_the_folder
+
+puts "Работаем с #{workfile}"
+
+  puts "Укажите номер страницы:"
 pagenum = gets.chomp.to_i
 
-reader = PDF::Reader.new(filename)
+reader = PDF::Reader.new(workfile)
 
 reader.pages.each_with_index do |page, index|
 counter = 0
