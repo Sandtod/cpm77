@@ -1,6 +1,25 @@
 ﻿# encoding: utf-8
 
+require 'json'
+
 public
+
+def any_labelling_shift(json)
+
+shapes = json['shapes']
+
+  shapes.each do |pointlist|
+
+    points_arr = pointlist['points']
+    points_arr.each do |obj|
+ 
+      obj = obj.map! {|n| n + 1}   
+ 
+    end
+
+  end
+
+end
 
 def dir_the_folder # метод для выбора файла, который нужно будет обрабатывать
 
@@ -26,7 +45,6 @@ workfile = filelist_hash[filenumber]
 return workfile
 
 end
-
 
 # PasswordsStack - класс для генерации паролей трёх типов.
 
