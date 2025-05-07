@@ -69,3 +69,38 @@ class PasswordsStack
 	end
 
 end
+
+# метод получения имён папок из директории, заданной в path
+
+def show_folders(path, limit: nil, show_hidden: false)
+  unless Dir.exist?(path)
+    puts "Ошибка: директории '#{path}' не существует!"
+    return
+  end
+
+  dirs = Dir.children(path).each_with_object([]) do |entry, arr|
+    next if ['.', '..'].include?(entry)
+    next if !show_hidden && entry.start_with?('.')
+    
+    full_path = File.join(path, entry)
+    if File.directory?(full_path)
+      arr << {
+        name: entry,
+        mtime: File.mtime(full_path)        
+      }
+    end
+  end
+
+  sorted = dirs.sort_by { |d| -d[:mtime].to_i }
+  sorted = sorted.take(limit) if limit
+
+  # Красивый вывод
+  max_name = sorted.map { |d| d[:name].length }.max
+  
+  puts "-" * (25 + max_name)
+  sorted.each do |dir|
+    puts " #{dir[:name].ljust(max_name)} (изменена #{dir[:mtime].strftime('%Y-%m-%d %H:%M')})"
+  end
+  puts "-" * (25 + max_name)
+  
+end
